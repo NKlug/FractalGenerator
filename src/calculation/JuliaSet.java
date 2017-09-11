@@ -1,5 +1,10 @@
 package calculation;
 
+import gui.ZoomedImage;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class JuliaSet extends AbstractSet {
 
     private Complex c;
@@ -29,35 +34,25 @@ public class JuliaSet extends AbstractSet {
         return radius;
     }
 
-    @Override
-    public void fillArray(byte[][][] image, int width, int height, double zoom) {
-        /*int offsetX = AbstractSet.SIZE / 2;
+    public ZoomedImage calculateBufferedImage(int width, int height, double zoom) {
+        ZoomedImage image = new ZoomedImage(width, height, BufferedImage.TYPE_3BYTE_BGR, zoom);
+        int offsetX = AbstractSet.SIZE / 2;
         int offsetY = AbstractSet.SIZE / 2;
         double scale = this.getRadius() / Math.min(offsetX, offsetY);
         scale /= zoom;
 
-        for (int i = 0; i <= height/2; i++) {
-            for (int j = 0; j < width; j+=3) {
-                int offset = i * width + j;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j <= height/2; j++) {
                 if (this.converges(new Complex((i - offsetX) * scale, (j - offsetY) * scale))) {
-                    image[offset] = 0;
-                    image[offset + 1] = 0;
-                    image[offset + 2] = 0;
-                    offset = (width * height) - 1 - offset;
-                    image[offset] = 0;
-                    image[offset + 1] = 0;
-                    image[offset + 2] = 0;
+                    image.setRGB(i, height - 1 - j, Color.WHITE.getRGB());
+                    image.setRGB(width - 1 - i, j, Color.WHITE.getRGB());
                 } else {
-                    image[offset] = (byte) 255;
-                    image[offset + 1] = (byte) 255;
-                    image[offset + 2] = (byte) 255;
-                    offset = width * height - 1 - offset;
-                    image[offset] = (byte) 255;
-                    image[offset + 1] = (byte) 255;
-                    image[offset + 2] = (byte) 255;
+                    image.setRGB(i, height - 1 - j, Color.BLACK.getRGB());
+                    image.setRGB(i, j, Color.BLACK.getRGB());
                 }
             }
-        }*/
+        }
+        return image;
     }
 
 }

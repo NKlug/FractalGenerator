@@ -1,6 +1,5 @@
 package gui;
 
-import calculation.AbstractSet;
 import calculation.Complex;
 import calculation.JuliaSet;
 
@@ -17,7 +16,7 @@ public class JuliaSetPanel extends JPanel {
     private JPanel zoomPanel;
     private JPanel controlPanel;
 
-    private ImagePanel juliaImagePanel;
+    private ImagePanel imagePanel;
 
     private JLabel realLabel;
     private JLabel imaginaryLabel;
@@ -36,8 +35,8 @@ public class JuliaSetPanel extends JPanel {
         this.controlPanel = new JPanel();
         this.controlPanel.setLayout(new BorderLayout());
 
-        this.juliaImagePanel = new ImagePanel();
-        this.zoomPanel = new ZoomPanel(juliaImagePanel);
+        this.imagePanel = new ImagePanel();
+        this.zoomPanel = new ZoomPanel(imagePanel);
 
         this.realLabel = new JLabel("real");
         this.imaginaryLabel = new JLabel("imaginary");
@@ -55,7 +54,7 @@ public class JuliaSetPanel extends JPanel {
                 try {
                     Complex c = new Complex(Double.parseDouble(realTextField.getText()),
                             Double.parseDouble(imaginaryTextField.getText()));
-                    juliaImagePanel.setSet(new JuliaSet(c));
+                    imagePanel.setSet(new JuliaSet(c));
                     parent.pack();
                     parent.setErrorText("");
                 } catch (NumberFormatException e) {
@@ -74,7 +73,7 @@ public class JuliaSetPanel extends JPanel {
         this.controlPanel.add(zoomPanel, BorderLayout.PAGE_END);
 
         this.add(controlPanel, BorderLayout.PAGE_START);
-        this.add(juliaImagePanel, BorderLayout.CENTER);
+        this.add(imagePanel, BorderLayout.CENTER);
     }
 
 }

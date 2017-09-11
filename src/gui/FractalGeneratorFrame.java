@@ -19,8 +19,7 @@ public class FractalGeneratorFrame extends JFrame {
 
 
     public FractalGeneratorFrame() {
-        this.setLocation(500, 500);
-        this.setPreferredSize(new Dimension(500,500));
+        this.setLocation(500, 300);
         this.setTitle("Fractal Generator");
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

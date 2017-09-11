@@ -1,5 +1,7 @@
 package calculation;
 
+import gui.ZoomedImage;
+
 public abstract class AbstractSet  {
 
     public static int ITERATIONS = 100;
@@ -7,6 +9,6 @@ public abstract class AbstractSet  {
 
     public abstract boolean converges(Complex start);
     public abstract double getRadius();
-    public abstract void fillArray(byte image[][][], int width, int height, double zoom);
+    public abstract ZoomedImage calculateBufferedImage(int width, int height, double zoom);
 
 }

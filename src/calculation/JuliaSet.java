@@ -34,21 +34,20 @@ public class JuliaSet extends AbstractSet {
         return radius;
     }
 
-    public ZoomedImage calculateBufferedImage(int width, int height, double zoom) {
+    @Override
+    public ZoomedImage calculateBufferedImage(int width, int height, Point origin,  double zoom) {
         ZoomedImage image = new ZoomedImage(width, height, BufferedImage.TYPE_3BYTE_BGR, zoom);
-        int offsetX = AbstractSet.SIZE / 2;
-        int offsetY = AbstractSet.SIZE / 2;
-        double scale = this.getRadius() / Math.min(offsetX, offsetY);
+        double scale = (2 * this.getRadius()) / Math.min(width, height);
         scale /= zoom;
 
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j <= height/2; j++) {
-                if (this.converges(new Complex((i - offsetX) * scale, (j - offsetY) * scale))) {
+            for (int j = 0; j < height; j++) {
+                if (this.converges(new Complex((i - origin.getX()) * scale, (j - origin.getY()) * scale))) {
                     image.setRGB(i, height - 1 - j, Color.WHITE.getRGB());
-                    image.setRGB(width - 1 - i, j, Color.WHITE.getRGB());
+//                    image.setRGB(width - 1 - i, j, Color.WHITE.getRGB());
                 } else {
                     image.setRGB(i, height - 1 - j, Color.BLACK.getRGB());
-                    image.setRGB(i, j, Color.BLACK.getRGB());
+//                    image.setRGB(i, j, Color.BLACK.getRGB());
                 }
             }
         }

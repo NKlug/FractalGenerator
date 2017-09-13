@@ -26,7 +26,8 @@ public class ImagePanel extends JPanel {
         this.imageHeight = AbstractSet.SIZE;
         this.imageWidth = AbstractSet.SIZE;
 
-        origin = new Point(0, 0);
+        origin = new Point(imageWidth/2, imageHeight/2);
+        dragStart = new Point();
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -38,8 +39,8 @@ public class ImagePanel extends JPanel {
         this.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                origin.setLocation(e.getX() - dragStart.getX() , dragStart.getY() - e.getY());
-                System.out.println(origin.toString());
+                origin.setLocation(origin.getX() + (e.getX() - dragStart.getX()) , origin.getY() +(dragStart.getY() - e.getY()));
+                dragStart.setLocation(e.getX(), e.getY());
                 repaint();
             }
         });
@@ -64,8 +65,9 @@ public class ImagePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (set != null) {
-            if (image == null || this.imageWidth != this.getWidth() || this.imageHeight == this.getHeight() || this.zoom != image.getZoom())
-                this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, zoom);
+//            if (image == null || this.imageWidth != this.getWidth() || this.imageHeight != this.getHeight() || this.zoom != image.getZoom())
+                System.out.println(origin);
+                this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
 
             g.drawImage(this.image, 0, 0, this);
         }

@@ -30,7 +30,7 @@ public class MandelbrotSet extends AbstractSet {
     }
 
     @Override
-    public ZoomedImage calculateBufferedImage(int width, int height, double zoom) {
+    public ZoomedImage calculateBufferedImage(int width, int height, Point topleft, double zoom) {
         ZoomedImage image = new ZoomedImage(width, height, BufferedImage.TYPE_3BYTE_BGR, zoom);
         int offsetX = width / 2 + (int) (width * 0.2);
         int offsetY = height / 2;

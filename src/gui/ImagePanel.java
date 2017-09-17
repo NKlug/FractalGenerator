@@ -66,7 +66,6 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
         if (set != null) {
 //            if (image == null || this.imageWidth != this.getWidth() || this.imageHeight != this.getHeight() || this.zoom != image.getZoom())
-                System.out.println(origin);
                 this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
 
             g.drawImage(this.image, 0, 0, this);

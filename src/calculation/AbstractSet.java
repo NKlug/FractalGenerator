@@ -11,6 +11,6 @@ public abstract class AbstractSet  {
 
     public abstract boolean converges(Complex start);
     public abstract double getRadius();
-    public abstract ZoomedImage calculateBufferedImage(int width, int height, Point topleft, double zoom);
+    public abstract ZoomedImage calculateBufferedImage(int width, int height, Point origin, double zoom);
 
 }

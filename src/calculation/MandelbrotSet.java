@@ -30,21 +30,19 @@ public class MandelbrotSet extends AbstractSet {
     }
 
     @Override
-    public ZoomedImage calculateBufferedImage(int width, int height, Point topleft, double zoom) {
+    public ZoomedImage calculateBufferedImage(int width, int height, Point origin, double zoom) {
         ZoomedImage image = new ZoomedImage(width, height, BufferedImage.TYPE_3BYTE_BGR, zoom);
-        int offsetX = width / 2 + (int) (width * 0.2);
-        int offsetY = height / 2;
-        double scale = (this.getRadius() / Math.min(offsetX, offsetY)) / 1.5;
+        double scale = ((2* this.getRadius()) / Math.min(width, height)) / 1.5;
         scale /= zoom;
 
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j <= height / 2; j++) {
-                if (!this.converges(new Complex((i - offsetX) * scale, (j - offsetY) * scale))) {
+            for (int j = 0; j < height; j++) {
+                if (!this.converges(new Complex((i - origin.getX()) * scale, (j - origin.getY()) * scale))) {
                     image.setRGB(i, height - 1 - j, Color.BLACK.getRGB());
-                    image.setRGB(i, j, Color.BLACK.getRGB());
+//                    image.setRGB(i, j, Color.BLACK.getRGB());
                 } else {
                     image.setRGB(i, height - 1 - j, Color.WHITE.getRGB());
-                    image.setRGB(i, j, Color.WHITE.getRGB());
+//                    image.setRGB(i, j, Color.WHITE.getRGB());
                 }
             }
         }

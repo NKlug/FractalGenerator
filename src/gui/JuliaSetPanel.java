@@ -5,18 +5,11 @@ import calculation.JuliaSet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class JuliaSetPanel extends JPanel {
-
-    private FractalGeneratorFrame parent;
+public class JuliaSetPanel extends SetPanel {
 
     private JPanel selectionPanel;
-    private JPanel zoomPanel;
     private JPanel controlPanel;
-
-    private ImagePanel imagePanel;
 
     private JLabel realLabel;
     private JLabel imaginaryLabel;
@@ -26,17 +19,14 @@ public class JuliaSetPanel extends JPanel {
 
     private JButton startButton;
 
-    public JuliaSetPanel (FractalGeneratorFrame parent) {
-        this.parent = parent;
+    public JuliaSetPanel(FractalGeneratorFrame parent) {
+        super(parent);
         this.setLayout(new BorderLayout());
 
         this.selectionPanel = new JPanel();
 
         this.controlPanel = new JPanel();
         this.controlPanel.setLayout(new BorderLayout());
-
-        this.imagePanel = new ImagePanel();
-        this.zoomPanel = new ZoomPanel(imagePanel);
 
         this.realLabel = new JLabel("real");
         this.imaginaryLabel = new JLabel("imaginary");
@@ -48,18 +38,15 @@ public class JuliaSetPanel extends JPanel {
 
 
         this.startButton = new JButton("Show");
-        this.startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    Complex c = new Complex(Double.parseDouble(realTextField.getText()),
-                            Double.parseDouble(imaginaryTextField.getText()));
-                    imagePanel.setSet(new JuliaSet(c));
-                    parent.pack();
-                    parent.setErrorText("");
-                } catch (NumberFormatException e) {
-                    parent.setErrorText(e.getMessage());
-                }
+        this.startButton.addActionListener(e -> {
+            try {
+                Complex c = new Complex(Double.parseDouble(realTextField.getText()),
+                        Double.parseDouble(imaginaryTextField.getText()));
+                imagePanel.setSet(new JuliaSet(c));
+                parent.pack();
+                parent.setErrorText("");
+            } catch (NumberFormatException ne) {
+                parent.setErrorText(ne.getMessage());
             }
         });
 
@@ -74,6 +61,8 @@ public class JuliaSetPanel extends JPanel {
 
         this.add(controlPanel, BorderLayout.PAGE_START);
         this.add(imagePanel, BorderLayout.CENTER);
+
+        this.startButton.doClick();
     }
 
 }

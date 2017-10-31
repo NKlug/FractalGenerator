@@ -9,7 +9,6 @@ public class ZoomedImage extends BufferedImage {
     public ZoomedImage(int width, int height, int imageType, double zoom) {
         super(width, height, imageType);
         this.zoom = zoom;
-
     }
 
     public double getZoom() {

@@ -5,16 +5,11 @@ import calculation.MandelbrotSet;
 import javax.swing.*;
 import java.awt.*;
 
-public class MandelbrotSetPanel extends JPanel {
+public class MandelbrotSetPanel extends SetPanel {
 
-    private ZoomPanel zoomPanel;
-    private ImagePanel imagePanel;
-
-    public MandelbrotSetPanel() {
+    public MandelbrotSetPanel(FractalGeneratorFrame parent) {
+        super(parent);
         this.setLayout(new BorderLayout());
-
-        this.imagePanel = new ImagePanel();
-        this.zoomPanel = new ZoomPanel(imagePanel);
 
         this.add(zoomPanel, BorderLayout.PAGE_START);
         this.add(imagePanel, BorderLayout.CENTER);

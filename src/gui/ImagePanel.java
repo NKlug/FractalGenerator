@@ -1,6 +1,7 @@
 package gui;
 
 import calculation.AbstractSet;
+import calculation.Complex;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,12 +20,15 @@ public class ImagePanel extends JPanel {
     private Point origin;
     private Point dragStart;
 
+    private FractalGeneratorFrame parent;
 
-    public ImagePanel() {
-        this.setPreferredSize(new Dimension(AbstractSet.SIZE, AbstractSet.SIZE));
+
+    public ImagePanel(FractalGeneratorFrame parent) {
+        this.parent = parent;
+        this.imageHeight = 500;
+        this.imageWidth = 500;
+        this.setPreferredSize(new Dimension(imageWidth, imageHeight));
         this.zoom = 1;
-        this.imageHeight = AbstractSet.SIZE;
-        this.imageWidth = AbstractSet.SIZE;
 
         origin = new Point(imageWidth/2, imageHeight/2);
         dragStart = new Point();
@@ -39,7 +43,7 @@ public class ImagePanel extends JPanel {
         this.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                origin.setLocation(origin.getX() + (e.getX() - dragStart.getX()) , origin.getY() +(dragStart.getY() - e.getY()));
+                origin.setLocation(origin.getX() + (e.getX() - dragStart.getX()), origin.getY() + (dragStart.getY() - e.getY()));
                 dragStart.setLocation(e.getX(), e.getY());
                 repaint();
             }
@@ -64,11 +68,36 @@ public class ImagePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (set != null) {
-//            if (image == null || this.imageWidth != this.getWidth() || this.imageHeight != this.getHeight() || this.zoom != image.getZoom())
-                this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
+        if (this.set != null) {
+//            if (this.image == null) {
+//                this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
+//            } else if (this.imageWidth != this.getWidth() || this.imageHeight != this.getHeight()
+//                    || this.zoom != image.getZoom()) {
+//                this.imageWidth = Math.min(this.getWidth(), this.getHeight());
+//                this.imageHeight = Math.min(this.getWidth(), this.getHeight());
+//            }
 
+//            double scale = (2 * this.set.getRadius()) / Math.min(this.imageWidth, this.imageHeight);
+//
+//            for (int i = 0; i < this.imageHeight; i++) {
+//                for (int j = 0; j < this.imageWidth; j++) {
+//                    if (this.set.converges(new Complex((i - this.imageWidth/2) * scale, (j - this.imageHeight/2) * scale))) {
+//                        g.setColor(Color.WHITE);
+//                        g.fillRect(i, this.imageHeight - j, 1, 1);
+//                    } else {
+//                        g.setColor(Color.BLACK);
+//                        g.fillRect(i, this.imageHeight - j, 1, 1);
+//                    }
+//                }
+//            }
+
+            this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
             g.drawImage(this.image, 0, 0, this);
         }
+    }
+
+
+    public ZoomedImage getImage() {
+        return this.image;
     }
 }

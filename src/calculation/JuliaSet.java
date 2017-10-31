@@ -51,6 +51,9 @@ public class JuliaSet extends AbstractSet {
                 }
             }
         }
+//        for (int i = -2; i <= 2; i++)
+//            for (int j = -2; j <= 2; j++)
+//                image.setRGB((int)origin.getX()+i,(int)origin.getY()+j, Color.RED.getRGB());
         return image;
     }
 

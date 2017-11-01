@@ -16,7 +16,7 @@ public class MandelbrotSet extends AbstractSet {
     @Override
     public boolean converges(Complex start) {
         Complex zN = new Complex(0, 0);
-        for (int i = 0; i < AbstractSet.ITERATIONS; i++) {
+        for (int i = 0; i < this.iterations; i++) {
             if (Complex.absolute(zN) > this.getRadius())
                 return false;
             zN = Complex.add(Complex.multiply(zN, zN), start);

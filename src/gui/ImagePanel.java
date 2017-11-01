@@ -4,6 +4,8 @@ import calculation.AbstractSet;
 import calculation.Complex;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,12 +27,12 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel(FractalGeneratorFrame parent) {
         this.parent = parent;
-        this.imageHeight = 500;
-        this.imageWidth = 500;
+        this.imageHeight = 600;
+        this.imageWidth = 600;
         this.setPreferredSize(new Dimension(imageWidth, imageHeight));
         this.zoom = 1;
 
-        origin = new Point(imageWidth/2, imageHeight/2);
+        origin = new Point(imageWidth / 2, imageHeight / 2);
         dragStart = new Point();
 
         this.addMouseListener(new MouseAdapter() {
@@ -58,6 +60,7 @@ public class ImagePanel extends JPanel {
     public void zoomIn() {
         this.zoom *= 1.5;
         this.repaint();
+        System.out.println(this.origin.toString());
     }
 
     public void zoomOut() {
@@ -68,6 +71,12 @@ public class ImagePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        if (this.getWidth() != 0 && this.getHeight() != 0) {
+            this.imageWidth = Math.min(this.getWidth(), this.getHeight());
+            this.imageHeight = Math.min(this.getWidth(), this.getHeight());
+        }
+
         if (this.set != null) {
 //            if (this.image == null) {
 //                this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
@@ -90,6 +99,7 @@ public class ImagePanel extends JPanel {
 //                    }
 //                }
 //            }
+
 
             this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
             g.drawImage(this.image, 0, 0, this);

@@ -31,8 +31,7 @@ public class ZoomPanel extends JPanel {
 
         zoomIn = new JButton("+");
         zoomIn.addActionListener(e -> {
-
-            panel.zoomIn();
+            this.panel.zoomIn();
 
         });
         zoomOut = new JButton("-");

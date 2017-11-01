@@ -11,8 +11,9 @@ public class JuliaSet extends AbstractSet {
 
     private double radius;
 
-    public JuliaSet(Complex c) {
+    public JuliaSet(Complex c, int iterations) {
         this.c = c;
+        this.iterations = iterations;
         this.initRadius();
     }
 
@@ -22,7 +23,7 @@ public class JuliaSet extends AbstractSet {
 
     public boolean converges(Complex start) {
         Complex zN = start;
-        for (int i = 0; i < AbstractSet.ITERATIONS; i++) {
+        for (int i = 0; i < this.iterations; i++) {
             if (Complex.absolute(zN) > this.getRadius())
                 return false;
             zN = Complex.add(Complex.multiply(zN, zN), this.c);

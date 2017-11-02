@@ -9,17 +9,20 @@ import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 public class ImagePanel extends JPanel {
 
     private AbstractSet set;
     private int imageHeight;
     private int imageWidth;
+
     private double zoom;
+    private double scale;
 
     private ZoomedImage image;
 
-    private Point origin;
+    private Point2D.Double origin;
     private Point dragStart;
 
     private FractalGeneratorFrame parent;
@@ -32,7 +35,7 @@ public class ImagePanel extends JPanel {
         this.setPreferredSize(new Dimension(imageWidth, imageHeight));
         this.zoom = 1;
 
-        origin = new Point(imageWidth / 2, imageHeight / 2);
+        origin = new Point2D.Double(0, 0);
         dragStart = new Point();
 
         this.addMouseListener(new MouseAdapter() {
@@ -45,7 +48,8 @@ public class ImagePanel extends JPanel {
         this.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                origin.setLocation(origin.getX() + (e.getX() - dragStart.getX()), origin.getY() + (dragStart.getY() - e.getY()));
+                updateDimensions();
+                origin.setLocation(origin.getX() + (e.getX() - dragStart.getX()) * scale, origin.getY() + (dragStart.getY() - e.getY()) * scale );
                 dragStart.setLocation(e.getX(), e.getY());
                 repaint();
             }
@@ -54,28 +58,37 @@ public class ImagePanel extends JPanel {
 
     public void setSet(AbstractSet set) {
         this.set = set;
+        this.initializeScale();
         this.repaint();
     }
 
     public void zoomIn() {
-        this.zoom *= 1.5;
+        this.scale /= 1.5;
         this.repaint();
-        System.out.println(this.origin.toString());
     }
 
     public void zoomOut() {
-        this.zoom /= 1.5;
+        this.scale *= 1.5;
         this.repaint();
+    }
+
+    private void updateDimensions() {
+        if (this.getWidth() != 0 && this.getHeight() != 0) {
+            this.imageWidth = Math.min(this.getWidth(), this.getHeight());
+            this.imageHeight = this.imageWidth;
+        }
+
+    }
+
+    private void initializeScale() {
+        this.scale =  (2 * this.set.getRadius()) / Math.min(this.imageWidth, this.imageHeight);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (this.getWidth() != 0 && this.getHeight() != 0) {
-            this.imageWidth = Math.min(this.getWidth(), this.getHeight());
-            this.imageHeight = Math.min(this.getWidth(), this.getHeight());
-        }
+        this.updateDimensions();
 
         if (this.set != null) {
 //            if (this.image == null) {
@@ -101,7 +114,7 @@ public class ImagePanel extends JPanel {
 //            }
 
 
-            this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, zoom);
+            this.image = set.calculateBufferedImage(this.imageWidth, this.imageHeight, origin, scale);
             g.drawImage(this.image, 0, 0, this);
         }
     }

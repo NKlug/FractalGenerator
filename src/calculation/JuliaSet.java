@@ -3,6 +3,7 @@ package calculation;
 import gui.ZoomedImage;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class JuliaSet extends AbstractSet {
@@ -36,14 +37,12 @@ public class JuliaSet extends AbstractSet {
     }
 
     @Override
-    public ZoomedImage calculateBufferedImage(int width, int height, Point origin,  double zoom) {
-        ZoomedImage image = new ZoomedImage(width, height, BufferedImage.TYPE_3BYTE_BGR, zoom);
-        double scale = (2 * this.getRadius()) / Math.min(width, height);
-        scale /= zoom;
+    public ZoomedImage calculateBufferedImage(int width, int height, Point2D origin, double scale) {
+        ZoomedImage image = new ZoomedImage(width, height, BufferedImage.TYPE_3BYTE_BGR, scale);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (this.converges(new Complex((i - origin.getX()) * scale, (j - origin.getY()) * scale))) {
+                if (this.converges(new Complex((i - width/2) * scale - origin.getX(), (j - height/2) * scale - origin.getY()))) {
                     image.setRGB(i, height - 1 - j, Color.WHITE.getRGB());
 //                    image.setRGB(width - 1 - i, j, Color.WHITE.getRGB());
                 } else {

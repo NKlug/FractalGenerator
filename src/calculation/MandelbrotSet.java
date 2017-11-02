@@ -16,14 +16,14 @@ public class MandelbrotSet extends AbstractSet {
     }
 
     @Override
-    public boolean converges(Complex start) {
+    public int converges(Complex start) {
         Complex zN = new Complex(0, 0);
         for (int i = 0; i < this.iterations; i++) {
             if (Complex.absolute(zN) > this.getRadius())
-                return false;
+                return i;
             zN = Complex.add(Complex.multiply(zN, zN), start);
         }
-        return true;
+        return iterations;
     }
 
     @Override
@@ -38,11 +38,13 @@ public class MandelbrotSet extends AbstractSet {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (this.converges(new Complex((i - 2 * width / 3) * scale - origin.getX(), (j - height / 2) * scale - origin.getY()))) {
+                int breakIterations = this.converges(new Complex((i - 2 * width / 3) * scale - origin.getX(),
+                        (j - height / 2) * scale - origin.getY()));
+                if (breakIterations == iterations) {
                     image.setRGB(i, height - 1 - j, Color.WHITE.getRGB());
 //                    image.setRGB(i, j, Color.BLACK.getRGB());
                 } else {
-                    image.setRGB(i, height - 1 - j, Color.BLACK.getRGB());
+                    image.setRGB(i, height - 1 - j, this.calculateColorFromNatural(breakIterations).getRGB());
 //                    image.setRGB(i, j, Color.WHITE.getRGB());
                 }
             }

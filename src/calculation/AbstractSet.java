@@ -19,13 +19,13 @@ public abstract class AbstractSet {
     public abstract ZoomedImage calculateBufferedImage(int width, int height, Point2D origin, double zoom);
 
     protected Color calculateColorFromNatural(int natural) {
-//        return calculateColorFromWavelength(380 + natural * (400 / iterations));
-        return calculateColor(natural * (255/iterations));
+        return calculateColorFromWavelength(380 + natural * (400 / iterations));
+//        return calculateColor(natural * (255/iterations));
     }
 
-    private Color calculateColor(int value) {
-        return new Color(0, 255-value, 50);
-    }
+//    private Color calculateColor(int value) {
+//        return new Color(0, 255-value, 50);
+//    }
 
 
     private Color calculateColorFromWavelength(int wavelength) {

@@ -11,7 +11,8 @@ import java.nio.Buffer;
 public class MandelbrotSet extends AbstractSet {
 
 
-    public MandelbrotSet() {
+    public MandelbrotSet(int iterations) {
+        this.iterations = iterations;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class MandelbrotSet extends AbstractSet {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (this.converges(new Complex((i - 2*width/3) * scale - origin.getX(), (j - height/2) * scale - origin.getY()))) {
+                if (this.converges(new Complex((i - 2 * width / 3) * scale - origin.getX(), (j - height / 2) * scale - origin.getY()))) {
                     image.setRGB(i, height - 1 - j, Color.WHITE.getRGB());
 //                    image.setRGB(i, j, Color.BLACK.getRGB());
                 } else {

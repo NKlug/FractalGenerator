@@ -19,7 +19,7 @@ public class JuliaSetPanel extends SetPanel {
     private JTextField imaginaryTextField;
     private JTextField iterationsTextField;
 
-    private JButton startButton;
+    private JButton showButton;
 
     public JuliaSetPanel(FractalGeneratorFrame parent) {
         super(parent);
@@ -42,19 +42,9 @@ public class JuliaSetPanel extends SetPanel {
         this.iterationsTextField.setPreferredSize(new Dimension(100, 30));
 
 
-        this.startButton = new JButton("Show");
-        this.startButton.addActionListener(e -> {
-            try {
-                Complex c = new Complex(Double.parseDouble(realTextField.getText()),
-                        Double.parseDouble(imaginaryTextField.getText()));
-                int iterations = Integer.parseInt(iterationsTextField.getText());
-
-                imagePanel.setSet(new JuliaSet(c, iterations));
-                parent.pack();
-                parent.setErrorText("");
-            } catch (NumberFormatException ne) {
-                parent.setErrorText(ne.getMessage());
-            }
+        this.showButton = new JButton("Show");
+        this.showButton.addActionListener(e -> {
+            this.showSet();
         });
 
         this.selectionPanel.add(realLabel);
@@ -63,7 +53,7 @@ public class JuliaSetPanel extends SetPanel {
         this.selectionPanel.add(imaginaryTextField);
         this.selectionPanel.add(iterationsLabel);
         this.selectionPanel.add(iterationsTextField);
-        this.selectionPanel.add(startButton);
+        this.selectionPanel.add(showButton);
 
         this.controlPanel.add(selectionPanel, BorderLayout.PAGE_START);
         this.controlPanel.add(zoomPanel, BorderLayout.PAGE_END);
@@ -71,7 +61,22 @@ public class JuliaSetPanel extends SetPanel {
         this.add(controlPanel, BorderLayout.PAGE_START);
         this.add(imagePanel, BorderLayout.CENTER);
 
-        this.startButton.doClick();
+        this.showSet();
+    }
+
+    private void showSet() {
+        try {
+            Complex c = new Complex(Double.parseDouble(realTextField.getText()),
+                    Double.parseDouble(imaginaryTextField.getText()));
+            int iterations = Integer.parseInt(iterationsTextField.getText());
+
+            imagePanel.setSet(new JuliaSet(c, iterations));
+            parent.pack();
+            parent.setErrorText("");
+        } catch (NumberFormatException ne) {
+            parent.setErrorText(ne.getMessage());
+        }
+
     }
 
 }
